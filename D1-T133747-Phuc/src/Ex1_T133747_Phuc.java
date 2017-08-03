@@ -59,8 +59,12 @@ public class Ex1_T133747_Phuc extends JFrame{
 				String userName = jtf.getText();
 				char[] passArray = txtPassword.getPassword();
 				String password = new String(passArray);
+				System.out.println(password+userName);
 				if(userName.equals("admin")&& password.equals("root")){
-					JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Hello"+userName);
+					//JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Hello"+userName);
+					MainWindow mainGUI = new MainWindow();
+					mainGUI.setVisible(true);
+					Ex1_T133747_Phuc.this.setVisible(false);
 				}else{
 					JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Fail");
 				}
