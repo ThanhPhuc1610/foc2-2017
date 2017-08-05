@@ -66,13 +66,16 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
+		
 		//xu ly su kien
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JInternalFrame newWindow = new JInternalFrame("New Window 1", true, true, true);
+				int n = 1;
+				JInternalFrame newWindow = new JInternalFrame("New Window " + n, true, true, true);
 				newWindow.setVisible(true);
 				newWindow.setSize(300, 300);
 				contentPane.add(newWindow);
+				newWindow.setLocation(10, 10);
 			}
 		});
 	}
