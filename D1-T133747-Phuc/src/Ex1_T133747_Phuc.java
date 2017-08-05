@@ -61,6 +61,22 @@ public class Ex1_T133747_Phuc extends JFrame{
 				login(jtf);
 			}
 		});
+		
+		
+		btnNewButton.setBounds(30, 216, 89, 23);
+		getContentPane().add(btnNewButton);
+		
+		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 17));
+		lblLogin.setBounds(75, 11, 66, 39);
+		getContentPane().add(lblLogin);
+		
+		txtPassword = new JPasswordField();
+		txtPassword.setBackground(Color.WHITE);
+		txtPassword.setBounds(30, 136, 150, 20);
+		getContentPane().add(txtPassword);
+		setLocationRelativeTo(null);
+		
 		txtPassword.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -82,20 +98,6 @@ public class Ex1_T133747_Phuc extends JFrame{
 				
 			}
 		});
-		
-		btnNewButton.setBounds(30, 216, 89, 23);
-		getContentPane().add(btnNewButton);
-		
-		JLabel lblLogin = new JLabel("Login");
-		lblLogin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 17));
-		lblLogin.setBounds(75, 11, 66, 39);
-		getContentPane().add(lblLogin);
-		
-		txtPassword = new JPasswordField();
-		txtPassword.setBackground(Color.WHITE);
-		txtPassword.setBounds(30, 136, 150, 20);
-		getContentPane().add(txtPassword);
-		setLocationRelativeTo(null);
 	} 
 	
 	
