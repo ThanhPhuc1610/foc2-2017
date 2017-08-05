@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Ex1_T133747_Phuc extends JFrame{
 	//Field - Instance Variable
@@ -56,24 +58,31 @@ public class Ex1_T133747_Phuc extends JFrame{
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String userName = jtf.getText().trim();
-				char[] passArray = txtPassword.getPassword();
-				String password = new String(passArray);
-				
-				boolean a = userName.equals("admin");
-				boolean b = password.equals("root");
-				System.out.println(a);
-				System.out.println(b);
-				if(userName.equals("admin")&& password.equals("root")){
-					//JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Hello"+userName);
-					MainWindow mainGUI = new MainWindow();
-					mainGUI.setVisible(true);
-					Ex1_T133747_Phuc.this.setVisible(false);
-				}else{
-					JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Fail");
-				}
+				login(jtf);
 			}
 		});
+		txtPassword.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					login(jtf);
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		btnNewButton.setBounds(30, 216, 89, 23);
 		getContentPane().add(btnNewButton);
 		
@@ -96,5 +105,26 @@ public class Ex1_T133747_Phuc extends JFrame{
 		gui.setDefaultCloseOperation(
 			JFrame.EXIT_ON_CLOSE);
 		gui.setSize(400, 300);
+	}
+
+
+	private void login(JTextField jtf) {
+		String userName = jtf.getText().trim();
+		char[] passArray = txtPassword.getPassword();
+		String password = new String(passArray);
+		
+		boolean a = userName.equals("admin");
+		boolean b = password.equals("root");
+		System.out.println(a);
+		System.out.println(b);
+		if(userName.equals("admin")&& password.equals("root")){
+			//ok
+			MainWindow mainGUI = new MainWindow();
+			mainGUI.setVisible(true);
+			Ex1_T133747_Phuc.this.setVisible(false);
+		}else{
+			//fail
+			JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Fail");
+		}
 	}
 }
