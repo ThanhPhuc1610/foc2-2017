@@ -36,6 +36,7 @@ public class MainWindow extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setTitle("Warehouse management");
 	}
 
 }
