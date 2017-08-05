@@ -56,10 +56,14 @@ public class Ex1_T133747_Phuc extends JFrame{
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String userName = jtf.getText();
+				String userName = jtf.getText().trim();
 				char[] passArray = txtPassword.getPassword();
 				String password = new String(passArray);
-				System.out.println(password+userName);
+				
+				boolean a = userName.equals("admin");
+				boolean b = password.equals("root");
+				System.out.println(a);
+				System.out.println(b);
 				if(userName.equals("admin")&& password.equals("root")){
 					//JOptionPane.showMessageDialog(Ex1_T133747_Phuc.this, "Hello"+userName);
 					MainWindow mainGUI = new MainWindow();
