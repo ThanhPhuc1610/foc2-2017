@@ -33,9 +33,9 @@ public class SQLiteDB {
 				ResultSet rs = stmt.executeQuery(sql)) {
 			while (rs.next()) {
 				
-				System.out.format("%3d %-40s %6.2f \n", 
-						rs.getInt("productid"),
-						rs.getInt("productcode"),
+				System.out.format("%3d %-10s %-10s %6.2f \n", 
+						rs.getInt("id"),
+						rs.getString("productcode"),
 						rs.getString("productname"),
 						rs.getDouble("unitprice"));
 						
@@ -47,9 +47,9 @@ public class SQLiteDB {
 		}
 	}
 	
-	public void insert (String pCode, String pName, int categoryid, int brandid,  int unitofmeasureid, double price, String description){
-		String sql = "INSERT INTO products(productcode, productname, categoryid, brandid, unitofmeasureid, price, description)"
-				+ "VALUES(?,?,?,?,?,?,?)";
+	public void insert (String pCode, String pName, int categoryid, int brandid,  int unitofmeasureid, double unitprice){
+		String sql = "INSERT INTO products(productcode, productname, categoryid, brandid, unitofmeasureid, unitprice)"
+				+ "VALUES(?,?,?,?,?,?)";
 		
 		try (Connection conn = connect();
 				PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -58,8 +58,8 @@ public class SQLiteDB {
 			pstmt.setInt(3, categoryid);
 			pstmt.setInt(4, brandid);
 			pstmt.setInt(5, unitofmeasureid);
-			pstmt.setDouble(6, price);
-			pstmt.setString(7, description);
+			pstmt.setDouble(6, unitprice);
+			
 			pstmt.executeUpdate();
 		}
 		catch (SQLException e) {

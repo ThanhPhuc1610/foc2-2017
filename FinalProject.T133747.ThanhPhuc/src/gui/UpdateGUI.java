@@ -1,16 +1,12 @@
 package gui;
-
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-
-import da.BrandDA;
-import da.CategoryDA;
-import da.ProductDA;
 import da.SQLiteDB;
-import da.UnitofMeasureDA;
 import dataobject.Brand;
 import dataobject.Category;
 import dataobject.UnitOfMeasure;
@@ -20,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-
+import java.awt.Window.Type;
 import java.util.Vector;
 import java.awt.Font;
 import java.awt.event.ItemListener;
@@ -29,27 +25,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class CreateGUI extends JFrame implements ActionListener{
+public class UpdateGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldName;
-	
 	private SQLiteDB foc2warehouseDb;
-	private ProductDA productDA;
-	private CategoryDA catDA;
-	private BrandDA braDA;
-	private UnitofMeasureDA unitDA;
-	
 	private JTextField textFieldPrice;
 	private JTextField textFieldProductCode;
-	private JButton btnOk;
-	private JButton btnCancel;
-	private JComboBox comboBox;
-	private Vector<Category> catList;
-	private JComboBox comboBox_Measure;
-	private Vector<UnitOfMeasure> unitOfMeasuresList;
-	private JComboBox comboBox_Brand;
-	private Vector<Brand> brandList;
 
 	/**
 	 * Launch the application.
@@ -58,7 +40,7 @@ public class CreateGUI extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateGUI frame = new CreateGUI();
+					UpdateGUI frame = new UpdateGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,13 +52,11 @@ public class CreateGUI extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public CreateGUI() {
-		//setType(Type.UTILITY);
+	public UpdateGUI() {
+		setType(Type.UTILITY);
 		
-		productDA = new ProductDA();
-		catDA = new CategoryDA();
-		braDA = new BrandDA();
-		unitDA = new UnitofMeasureDA();
+		foc2warehouseDb = new SQLiteDB();
+		foc2warehouseDb.getAllCategories();
 		
 		//foc2warehouse = new SQLiteDB();
 		//foc2warehouse.getAllCategories();
@@ -88,9 +68,9 @@ public class CreateGUI extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblAddProduct = new JLabel("Add Product");
+		JLabel lblAddProduct = new JLabel("Update Product");
 		lblAddProduct.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblAddProduct.setBounds(149, 18, 111, 14);
+		lblAddProduct.setBounds(128, 23, 143, 14);
 		contentPane.add(lblAddProduct);
 		
 		JLabel lblNewLabel = new JLabel("Name");
@@ -106,7 +86,7 @@ public class CreateGUI extends JFrame implements ActionListener{
 		lblNewLabel_1.setBounds(25, 112, 86, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox();
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				//System.out.println(comboBox.getSelectedItem());
@@ -116,7 +96,7 @@ public class CreateGUI extends JFrame implements ActionListener{
 		});
 		
 		
-		catList = catDA.getAllCategories();
+		Vector<Category> catList = foc2warehouseDb.getAllCategories();
 		comboBox.setModel(new DefaultComboBoxModel(catList));
 		
 		comboBox.setBounds(128, 113, 216, 20);
@@ -124,8 +104,7 @@ public class CreateGUI extends JFrame implements ActionListener{
 		
 		
 		
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(this);
+		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(211, 245, 89, 23);
 		contentPane.add(btnCancel);
 		
@@ -133,14 +112,14 @@ public class CreateGUI extends JFrame implements ActionListener{
 		lblUnitOfMeasure.setBounds(25, 143, 93, 14);
 		contentPane.add(lblUnitOfMeasure);
 		
-		comboBox_Measure = new JComboBox();
+		JComboBox comboBox_Measure = new JComboBox();
 		comboBox_Measure.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				UnitOfMeasure uom = (UnitOfMeasure)comboBox_Measure.getSelectedItem();
 			}
 		});
 		
-		unitOfMeasuresList = unitDA.getAllUnitOfMeasure();
+		Vector<UnitOfMeasure> unitOfMeasuresList = foc2warehouseDb.getAllUnitOfMeasure();
 		comboBox_Measure.setModel(new DefaultComboBoxModel(unitOfMeasuresList));
 		
 		comboBox_Measure.setBounds(128, 144, 216, 20);
@@ -150,15 +129,15 @@ public class CreateGUI extends JFrame implements ActionListener{
 		lblBrand.setBounds(25, 174, 86, 14);
 		contentPane.add(lblBrand);
 		
-		comboBox_Brand = new JComboBox();
+		JComboBox comboBox_Brand = new JComboBox();
 		comboBox_Brand.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				Brand bra = (Brand)comboBox_Brand.getSelectedItem();
 			}
 		});
 		
-		brandList = braDA.getAllBrands();
-		comboBox_Brand.setModel(new DefaultComboBoxModel(brandList));
+		Vector<Brand> BrandList = foc2warehouseDb.getAllBrands();
+		comboBox_Brand.setModel(new DefaultComboBoxModel(BrandList));
 		
 		comboBox_Brand.setBounds(128, 175, 216, 20);
 		contentPane.add(comboBox_Brand);
@@ -182,39 +161,28 @@ public class CreateGUI extends JFrame implements ActionListener{
 		textFieldProductCode.setColumns(10);
 		
 		
-		btnOk = new JButton("Ok");
-		btnOk.addActionListener(this);
+		JButton btnOk = new JButton("Ok");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String productname = textFieldName.getText();
+				double price = Double.parseDouble(textFieldPrice.getText());
+				String productCode = textFieldProductCode.getText();
+				
+				Brand selectedBra = (Brand)comboBox_Brand.getSelectedItem();
+				int braId = selectedBra.getId();
+				
+				UnitOfMeasure selectedUnitOfMeasure = (UnitOfMeasure) comboBox_Measure.getSelectedItem();
+				int uomId = selectedUnitOfMeasure.getId();
+				
+				Category selectedCat = (Category) comboBox.getSelectedItem();
+				int catId = selectedCat.getCategoryId();
+				
+				
+				foc2warehouseDb.getAllProducts();
+			}
+		});
 		
 		btnOk.setBounds(82, 245, 89, 23);
 		contentPane.add(btnOk); 
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getSource() == btnOk)
-		{
-			addProduct();
-		}else if(e.getSource() == btnCancel){
-			CreateGUI.this.dispose();
-		}
-	}
-
-	private void addProduct() {
-		String productname = textFieldName.getText();
-		double price = Double.parseDouble(textFieldPrice.getText());
-		String productCode = textFieldProductCode.getText();
-		
-		Brand selectedBra = (Brand)comboBox_Brand.getSelectedItem();
-		int braId = selectedBra.getId();
-		
-		UnitOfMeasure selectedUnitOfMeasure = (UnitOfMeasure) comboBox_Measure.getSelectedItem();
-		int uomId = selectedUnitOfMeasure.getId();
-		
-		Category selectedCat = (Category) comboBox.getSelectedItem();
-		int catId = selectedCat.getCategoryId();
-		
-		productDA.insert(productCode, productname, catId, braId, uomId, price," ");
-		productDA.getAllProducts();
 	}
 }
