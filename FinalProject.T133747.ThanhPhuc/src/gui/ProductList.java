@@ -26,8 +26,8 @@ public class ProductList extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProductList frame = new ProductList();
-					frame.setVisible(true);
+					ProductList frames = new ProductList();
+					frames.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,6 +39,7 @@ public class ProductList extends JFrame {
 	 * Create the frame.
 	 */
 	public ProductList() {
+		setTitle("Product List");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

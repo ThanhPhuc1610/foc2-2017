@@ -21,6 +21,7 @@ import da.ProductDA;
 import da.UnitOfMeasureDA;
 import dataobject.Brand;
 import dataobject.Category;
+import dataobject.Product;
 import dataobject.UnitOfMeasure;
 
 public class UpdateProduct extends JFrame implements ActionListener {
@@ -39,12 +40,13 @@ public class UpdateProduct extends JFrame implements ActionListener {
 	private BrandDA brandDA;
 	private UnitOfMeasureDA unitDA;
 	
-	private JButton btnAdd;
+	private JButton btnUpdate;
 	private JButton btnCancel;
 	private JComboBox<Category> cmbCategory;
 	private JComboBox<UnitOfMeasure> cmbUnit;
 	private JComboBox<Brand> cmbBrand;
 
+	public int productID = 1;
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +55,9 @@ public class UpdateProduct extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					UpdateProduct frame = new UpdateProduct();
+					ProductList frames = new ProductList();
 					frame.setVisible(true);
+					frames.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,12 +69,21 @@ public class UpdateProduct extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public UpdateProduct() {
+		//productID = pid;
 		productDA = new ProductDA();
 		catDA = new CategoryDA();
 		brandDA = new BrandDA();
 		unitDA = new UnitOfMeasureDA();
 		
 		initGUI();
+		
+		
+		Product p = productDA.getProduct(productID );
+		txtProductCode.setText(p.getProductCode());
+		txtName.setText(p.getProductName());
+		txtUnitPrice.setText(p.getUnitPrice()+"");
+		cmbCategory.setSelectedIndex(1);
+		
 	}
 
 	private void initGUI() {
@@ -106,7 +119,7 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		contentPane.add(txtUnitPrice);
 		
 		JLabel lbProductCode = new JLabel("Product Code");
-		lbProductCode.setBounds(25, 71, 74, 14);
+		lbProductCode.setBounds(25, 71, 89, 14);
 		contentPane.add(lbProductCode);
 		
 		txtProductCode = new JTextField();
@@ -120,10 +133,10 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		lblAddProduct.setBounds(39, 27, 229, 14);
 		contentPane.add(lblAddProduct);
 		
-		btnAdd = new JButton("Update");
-		btnAdd.setBounds(61, 272, 89, 23);
-		contentPane.add(btnAdd);
-		btnAdd.addActionListener(this);
+		btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(61, 272, 89, 23);
+		contentPane.add(btnUpdate);
+		btnUpdate.addActionListener(this);
 		
 		btnCancel = new JButton("Cancel");
 		btnCancel.setBounds(179, 272, 89, 23);
@@ -159,8 +172,8 @@ public class UpdateProduct extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnAdd){
-			addProduct();
+		if(e.getSource() == btnUpdate){
+			updateProduct();
 			productDA.getAllProducts();
 		}else if(e.getSource() == btnCancel){
 			UpdateProduct.this.dispose();
@@ -168,7 +181,7 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		
 	}
 
-	private void addProduct() {
+	private void updateProduct() {
 		String productCode = txtProductCode.getText();
 		String productName = txtName.getText();
 		double unitPrice = Double.parseDouble(txtUnitPrice.getText());
@@ -179,6 +192,6 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		int brandId = selectedBrand.getId();
 		int unitId = selectedUnit.getId();
 		
-		productDA.insert(productCode, productName, catId, brandId, unitId, unitPrice, "");
+		productDA.update(productCode, productName, catId, unitPrice, brandId);
 	}
 }

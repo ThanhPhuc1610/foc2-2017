@@ -54,6 +54,8 @@ public class AddProduct extends JFrame implements ActionListener {
 				try {
 					AddProduct frame = new AddProduct();
 					frame.setVisible(true);
+					ProductList frames = new ProductList();
+					frames.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -162,6 +164,8 @@ public class AddProduct extends JFrame implements ActionListener {
 		if(e.getSource() == btnAdd){
 			addProduct();
 			productDA.getAllProducts();
+			ProductList frames = new ProductList();
+			frames.setVisible(true);
 		}else if(e.getSource() == btnCancel){
 			AddProduct.this.dispose();
 		}
