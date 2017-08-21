@@ -1,29 +1,31 @@
 package dataobject;
 
 public class UnitOfMeasure {
-	public UnitOfMeasure(int id, String Name) {
+	private int id;
+	private String name;
+	
+	public UnitOfMeasure(){}
+	public UnitOfMeasure(int id, String name) {
 		super();
 		this.id = id;
-		this.Name = Name;
+		this.name = name;
 	}
-	private int id;
-	private String Name;
-	
+	@Override
+	public String toString() {
+		return name;
+	}
 	public int getId() {
 		return id;
-	} 
+	}
 	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
-		return Name;
+		return name;
 	}
-	public void setBrandName(String Name) {
-		this.Name = Name;
-	}
-	@Override
-	public String toString() {
-		return Name;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
+
 }
