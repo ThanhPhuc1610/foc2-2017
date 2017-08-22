@@ -106,17 +106,18 @@ public class ProductDA extends WHConnection {
 		}
 	}
 	
-	public void update(String productcode, String productname, int categoryid, double pPrice, int brandid){
-		String sql = "UPDATE products set productcode = ?, productname = ?, categoryid = ?, unitprice = ?, brandid = ? "
+	public void update(String pCode, String pName, int categoryid, int brandid, int unitOfMeasure, double pPrice, int productid){
+		String sql = "UPDATE products set productcode = ?, productname = ?, categoryid = ?, brandid = ?, unitofmeasureid = ?, unitprice = ? "
 				+ "WHERE(id = ?)";
 		
-		try (Connection conn = connect();
-				PreparedStatement pstmt = conn.prepareStatement(sql)){
-			pstmt.setString(1, productcode);
-			pstmt.setString(2, productname);
+		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, pCode);
+			pstmt.setString(2, pName);
 			pstmt.setInt(3, categoryid);
-			pstmt.setDouble(4, pPrice);
-			pstmt.setInt(5, brandid);
+			pstmt.setInt(4, brandid);
+			pstmt.setInt(5, unitOfMeasure);
+			pstmt.setDouble(6, pPrice);
+			pstmt.setInt(7, productid);
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

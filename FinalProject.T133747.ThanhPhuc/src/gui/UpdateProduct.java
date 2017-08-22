@@ -10,10 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import da.BrandDA;
 import da.CategoryDA;
@@ -54,10 +56,10 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UpdateProduct frame = new UpdateProduct();
-					ProductList frames = new ProductList();
+					UpdateProduct frame = new UpdateProduct(1);
+					
 					frame.setVisible(true);
-					frames.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -67,9 +69,10 @@ public class UpdateProduct extends JFrame implements ActionListener {
 
 	/**
 	 * Create the frame.
+	 * @param selectedProductID 
 	 */
-	public UpdateProduct() {
-		//productID = pid;
+	public UpdateProduct(int pid) {
+		productID = pid;
 		productDA = new ProductDA();
 		catDA = new CategoryDA();
 		brandDA = new BrandDA();
@@ -144,7 +147,7 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		btnCancel.addActionListener(this);
 		
 		cmbCategory = new JComboBox<Category>();
-		Vector<Category> catList = catDA.getCategories();
+		Vector<Category> catList = catDA.getAllCategories();
 		cmbCategory.setModel(new DefaultComboBoxModel<Category>(catList));
 		cmbCategory.setBounds(137, 130, 173, 20);
 		contentPane.add(cmbCategory);
@@ -175,6 +178,10 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		if(e.getSource() == btnUpdate){
 			updateProduct();
 			productDA.getAllProducts();
+			JOptionPane.showMessageDialog(this,"updated completed");
+			
+			ProductList frame1 = new ProductList();
+			frame1.setVisible(true);
 		}else if(e.getSource() == btnCancel){
 			UpdateProduct.this.dispose();
 		}
@@ -192,6 +199,6 @@ public class UpdateProduct extends JFrame implements ActionListener {
 		int brandId = selectedBrand.getId();
 		int unitId = selectedUnit.getId();
 		
-		productDA.update(productCode, productName, catId, unitPrice, brandId);
+		productDA.update(productCode, productName, catId, brandId, unitId, unitPrice, productID);
 	}
 }
