@@ -79,6 +79,7 @@ public class CategoryDA extends WHConnection{
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(spl)){
 			pstmt.setString(1, name);
 			pstmt.setString(2, description);
+			
 			pstmt.executeUpdate();
 		}
 		catch (Exception e) {
@@ -87,12 +88,13 @@ public class CategoryDA extends WHConnection{
 		}
 	}
 	
-	public void update(String name, String description){
-		String sql ="UPDATE categories SET categoryname = ?, description = ? "
-				+"WHERE(id = ?)";
+	public void update(String name, String description, int categoryid){
+		String sql = "UPDATE categories SET categoryname = ?, description = ? "
+				+ "WHERE(id = ?)";
 		try(Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, name);
 			pstmt.setString(2, description);
+			pstmt.setInt(3, categoryid);
 			pstmt.executeUpdate();
 		}
 		catch (Exception e) {

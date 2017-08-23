@@ -152,6 +152,7 @@ public class UpdateCategory extends JFrame implements ActionListener {
 	private void updateCategory() {
 		String categoryName = txtName.getText();
 		String categoryDescription = txtDescription.getText();
-		catDA.update(categoryName, categoryDescription);
+		
+		catDA.update(categoryName, categoryDescription, categoryID);
 	}
 }
