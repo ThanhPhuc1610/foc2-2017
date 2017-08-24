@@ -10,43 +10,46 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import dataobject.Brand;
-import dataobject.UnitOfMeasure;
+import dataobject.Category;
+import dataobject.Warehouse;
 
-public class UnitOfMeasureDA extends WHConnection {
+public class WarehouseDA extends WHConnection{
 	
-	public Vector<UnitOfMeasure> getUnitOfMeasure() {
-		String sql = "SELECT * FROM unitofmeasure";
-		Vector<UnitOfMeasure> unitList = new Vector<>();
+	public Vector<Warehouse> getAllWarehouses() {
+		String sql = "SELECT * FROM WareHouse";
+		Vector<Warehouse> warehouseList = new Vector<>();
 		try (Connection conn = connect();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {
 
 			// loop through the result set
 			while (rs.next()) {
-				UnitOfMeasure unit = new UnitOfMeasure(rs.getInt("id"),
-						rs.getString("unitname"));
-				unitList.add(unit);
+				Warehouse ware = new Warehouse(rs.getInt("id"),
+						rs.getString("warehousename"),
+						rs.getString("address"),
+						rs.getString("description"));
+				warehouseList.add(ware);
 			}
-			return unitList;
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return unitList;
+		return warehouseList;
 	}
 	
-	public UnitOfMeasure getUnit(int id ){
-		String sql = "SELECT u.unitname FROM unitofmeasure u WHERE u.id = " + id;
+	public Warehouse getWarehouse(int id ){
+		String sql = "SELECT w.warehousename, w.address, w.description  FROM WareHouse w WHERE w.id = " + id;
 		try(Connection conn = connect(); 
 				Statement stmt = conn.createStatement(); 
 				ResultSet rs = stmt.executeQuery(sql)){
 			if(rs.next()){
-				UnitOfMeasure unit = new UnitOfMeasure();
+				Warehouse ware = new Warehouse();
 				
 				//cat.setCategoryId(rs.getInt("categoriesid"));
-				unit.setName(rs.getString("unitname"));
-				//bra.setDescription(rs.getString("description"));
-				return unit;
+				ware.setName(rs.getString("warehousename"));
+				ware.setAddress(rs.getString("address"));
+				ware.setDescription(rs.getString("description"));
+				return ware;
 			}
 		}
 		catch (Exception e) {
@@ -56,8 +59,8 @@ public class UnitOfMeasureDA extends WHConnection {
 		return null;
 	}
 	
-	public DefaultTableModel getUnits1() {
-		String sql = "SELECT * FROM unitofmeasure";
+	public DefaultTableModel getWarehouse1() {
+		String sql = "SELECT * FROM WareHouse";
 
 		try (Connection conn = connect();
 				Statement stmt = conn.createStatement();
@@ -73,12 +76,13 @@ public class UnitOfMeasureDA extends WHConnection {
 	
 	
 	
-	public void insert(String name){
-		String spl ="INSERT INTO unitofmeasure(unitname)"
-				+ "VALUES(?)";
+	public void insert(String name, String address, String description){
+		String spl ="INSERT INTO WareHouse(warehousename, address, description)"
+				+ "VALUES(?, ?, ?)";
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(spl)){
 			pstmt.setString(1, name);
-			//pstmt.setString(2, description);
+			pstmt.setString(2, address);
+			pstmt.setString(3, description);
 			
 			pstmt.executeUpdate();
 		}
@@ -88,13 +92,14 @@ public class UnitOfMeasureDA extends WHConnection {
 		}
 	}
 	
-	public void update(String name, int unitid){
-		String sql = "UPDATE unitofmeasure SET unitname = ? "
+	public void update(String name, String address, String description, int warehouseid){
+		String sql = "UPDATE WareHouse SET warehousename = ?, address = ?, description = ? "
 				+ "WHERE(id = ?)";
 		try(Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, name);
-			
-			pstmt.setInt(2, unitid);
+			pstmt.setString(2, address);
+			pstmt.setString(3, description);
+			pstmt.setInt(4, warehouseid);
 			pstmt.executeUpdate();
 		}
 		catch (Exception e) {

@@ -10,43 +10,47 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import dataobject.Brand;
-import dataobject.UnitOfMeasure;
+import dataobject.Category;
+import dataobject.User;
+import dataobject.Warehouse;
 
-public class UnitOfMeasureDA extends WHConnection {
+public class UserDA extends WHConnection{
 	
-	public Vector<UnitOfMeasure> getUnitOfMeasure() {
-		String sql = "SELECT * FROM unitofmeasure";
-		Vector<UnitOfMeasure> unitList = new Vector<>();
+	public Vector<User> getAllUsers() {
+		String sql = "SELECT * FROM User";
+		Vector<User> userList = new Vector<>();
 		try (Connection conn = connect();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql)) {
 
 			// loop through the result set
 			while (rs.next()) {
-				UnitOfMeasure unit = new UnitOfMeasure(rs.getInt("id"),
-						rs.getString("unitname"));
-				unitList.add(unit);
+				User user = new User(rs.getInt("id"),
+						rs.getString("username"),
+						rs.getString("password"));
+						//rs.getString("description"));
+				userList.add(user);
 			}
-			return unitList;
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return unitList;
+		return userList;
 	}
 	
-	public UnitOfMeasure getUnit(int id ){
-		String sql = "SELECT u.unitname FROM unitofmeasure u WHERE u.id = " + id;
+	public User getUser(int id ){
+		String sql = "SELECT us.username, us.password FROM User us WHERE us.id = " + id;
 		try(Connection conn = connect(); 
 				Statement stmt = conn.createStatement(); 
 				ResultSet rs = stmt.executeQuery(sql)){
 			if(rs.next()){
-				UnitOfMeasure unit = new UnitOfMeasure();
+				User user = new User();
 				
 				//cat.setCategoryId(rs.getInt("categoriesid"));
-				unit.setName(rs.getString("unitname"));
-				//bra.setDescription(rs.getString("description"));
-				return unit;
+				user.setName(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				
+				return user;
 			}
 		}
 		catch (Exception e) {
@@ -56,8 +60,8 @@ public class UnitOfMeasureDA extends WHConnection {
 		return null;
 	}
 	
-	public DefaultTableModel getUnits1() {
-		String sql = "SELECT * FROM unitofmeasure";
+	public DefaultTableModel getUser1() {
+		String sql = "SELECT * FROM User";
 
 		try (Connection conn = connect();
 				Statement stmt = conn.createStatement();
@@ -73,12 +77,12 @@ public class UnitOfMeasureDA extends WHConnection {
 	
 	
 	
-	public void insert(String name){
-		String spl ="INSERT INTO unitofmeasure(unitname)"
-				+ "VALUES(?)";
+	public void insert(String username, String password){
+		String spl ="INSERT INTO User(username, password)"
+				+ "VALUES(?, ?)";
 		try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(spl)){
-			pstmt.setString(1, name);
-			//pstmt.setString(2, description);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
 			
 			pstmt.executeUpdate();
 		}
@@ -88,13 +92,13 @@ public class UnitOfMeasureDA extends WHConnection {
 		}
 	}
 	
-	public void update(String name, int unitid){
-		String sql = "UPDATE unitofmeasure SET unitname = ? "
+	public void update(String username, String password, int userid){
+		String sql = "UPDATE User SET username = ?, password = ? "
 				+ "WHERE(id = ?)";
 		try(Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
-			pstmt.setString(1, name);
-			
-			pstmt.setInt(2, unitid);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			pstmt.setInt(3, userid);
 			pstmt.executeUpdate();
 		}
 		catch (Exception e) {

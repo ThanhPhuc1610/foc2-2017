@@ -1,20 +1,21 @@
 package dataobject;
 
-public class Brand {
+public class Department {
 	private int id;
-	private String name;
+	private String departmentname;
 	private String description;
 	
-	public Brand(){}
-	public Brand(int id, String name, String description) {
+	
+	public Department(){}
+	public Department(int id, String username, String password) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.departmentname = departmentname;
 		this.description = description;
 	}
 	@Override
 	public String toString() {
-		return name + description;
+		return departmentname + description;
 	}
 	public int getId() {
 		return id;
@@ -22,11 +23,11 @@ public class Brand {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name ;
+	public String getDepartmentname() {
+		return departmentname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setDepartmentname(String departmentname) {
+		this.departmentname = departmentname;
 	}
 	public String getDescription() {
 		return description;
@@ -34,5 +35,7 @@ public class Brand {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
 	
 }
